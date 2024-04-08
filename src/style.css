@@ -1,0 +1,46 @@
+body{
+    /* background-color: rgb(220, 235, 255); */
+    background-image: url(../img/bg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header {
+    text-align: center;
+}
+
+h1, h2 {
+    font-family: "Acme", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    color: rgb(32, 66, 234);
+}
+
+h1 {
+    font-size: 70px;
+}
+
+h2 {
+    font-size: 50px;
+}
+
+.maincontainer {
+ display: flex;
+ width: 1250px;
+ justify-content: space-between;
+ background-color: white;
+}
+
+.gameField {
+    margin-left: 80px;
+    width: 820px;
+    height: 760px;
+}
+
+.playerField {
+    padding: 10px 30px;
+}
+
