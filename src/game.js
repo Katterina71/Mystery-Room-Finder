@@ -78,6 +78,24 @@ class Player {
 
 
 const house = new RoomList("louie");
-const louieRoom = house.createRoom("louieRoom","../img/room1/louieroom.svg");
-console.log(house);
-console.log(louieRoom);
+const louieRoom = house.createRoom("louieRoom","./img/room1/louieroom.svg");
+console.log(louieRoom[0]);
+
+
+
+// main 
+const startGame = document.getElementById("playerField");
+console.log(startGame)
+const gameFiledIMG = document.getElementById("gameFiledIMG");
+console.log(gameFiledIMG)
+
+startGame.addEventListener("click", function(event){
+    event.preventDefault();
+    const clickElement = event.target; 
+    if (clickElement.nodeName = "BUTTON") {
+        document.getElementById('gameFiledIMG').src = louieRoom[0].imagePath;
+    }
+})
+
+
+

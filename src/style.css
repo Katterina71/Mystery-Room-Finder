@@ -40,10 +40,22 @@ h2 {
 
 .gameField {
     margin-left: 50px;
+    width: 750px;
+    height: 570px;
+    /* height: 800px; when add score and word change size*/ 
+    display: flex;
+    align-items: top;
+    
+}
+
+.dynamicIMG{
+    position: absolute;
     width: 820px;
     height: 570px;
-    display: flex;
-    align-items: center;
+}
+
+.overlay-image {
+   position: relative;
 }
 
 .playerField {

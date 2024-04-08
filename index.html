@@ -16,7 +16,7 @@
         <h1>Mystery room Finder</h1>
     </header>
     <div class="maincontainer">
-        <div class="playerField">
+        <div class="playerField" id="playerField">
             <div class="intro">
                 <h2>Welcome</h2>
             <p>Gear up to unearth Louie's "treasured", from his squeaky duck empire to that one sock's long-lost twin. Ready, set, scavenger hunt—may the odds be ever in your favor (and your toes safe)!</p>
@@ -24,14 +24,34 @@
             <div class="item"></div>
             <div class="score"></div>
             <div class="timer"></div>
-            <div class="button">
-                <button>Solo Game</button>
+            <div class="active_button">
+                <button id="soloGame">Solo Game</button>
             </div>
-            <div class="louie"><img src="./img/louie/louieSad.svg" alt="louie"></div>
+           
             
         </div>
-        <div class="gameField">
-            <img src="./img/house-small.svg" alt="house" >
+        <div class="gameField" id ="gameField">
+            <!-- <img src="./img/house-small.svg" alt="house" id ="gameFiledIMG"> -->
+            <div class="dynamicIMG">
+                 <img src="./img/room1/louieroom.svg" alt="house" id ="gameFiledIMG">
+                 <div><img src="./img/room1/items/lamp.svg" alt="item" id="lampIMG" class="overlay-image" style="left: 411px; top: -358px;" ></div>
+                 <div><img src="./img/room1/items/chair.svg" alt="item" id="lampIMG" class="overlay-image" style="left: 320px; top: -392px;" ></div>
+                 <div><img src="./img/room1/items/box.svg" alt="item" id="lampIMG" class="overlay-image" style="left: 413px; top: -765px;" ></div>
+                 <div><img src="./img/room1/items/frame.svg" alt="item" id="lampIMG" class="overlay-image" style="left: 660px; top: -716px;" ></div>
+                 <div><img src="./img/room1/items/pencil.svg" alt="item" id="lampIMG" class="overlay-image" style="left: 472px; top: -506px;" ></div>
+                 <div><img src="./img/room1/items/pillow.svg" alt="item" id="lampIMG" class="overlay-image" style="left: 166px; top: -645px;" ></div>
+                 <div><img src="./img/room1/items/plant.svg" alt="item" id="lampIMG" class="overlay-image" style="left: 0px; top: -753px;" ></div>
+                 <div><img src="./img/room1/items/sofa.svg" alt="item" id="lampIMG" class="overlay-image" style="left: 480px; top: -850px;" ></div>
+                 <div><img src="./img/room1/items/nightstand.svg" alt="item" id="lampIMG" class="overlay-image" style="left: 630px; top: -972px;" ></div>
+                 <div><img src="./img/room1/items/backpack.svg" alt="item" id="lampIMG" class="overlay-image" style="left: 538px; top: -1173px;" ></div>
+                 <div><img src="./img/room1/items/scarf.svg" alt="item" id="lampIMG" class="overlay-image" style="left: 478px; top: -1348px;" ></div>
+                 <div><img src="./img/room1/items//bedsidelamp.svg" alt="item" id="lampIMG" class="overlay-image" style="left: 678px; top: -1565px;" ></div>
+                 <div><img src="./img/room1/items/book.svg" alt="item" id="lampIMG" class="overlay-image" style="left: 640px; top: -1592px;" ></div>
+                 <div><img src="./img/room1/items/umbrella.svg" alt="item" id="lampIMG" class="overlay-image" style="left: 635px; top: -1620px;" ></div>
+      
+                 <div><img src="./img/room1/items/spider.svg" alt="item" id="lampIMG" class="overlay-image" style="left: 420px; top: -2150px;" ></div>
+            </div>
+            <!-- <div class="louie"><img src="./img/louie/louieSad.svg" alt="louie"></div> -->
         </div>
     </div>
     <script src="./src/game.js"></script>
