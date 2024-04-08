@@ -1,13 +1,14 @@
 class Room {
-    constructor (name,imagePath){
-        name = name
-        imagePath = imagePath
+    constructor (house,name,imagePath){
+        this.name = name
+        this.imagePath = imagePath
+        this.house = house;
     }
 }
 
 
 class Item {
-    constructor (name, imagePath, x, y){
+    constructor (name,imagePath,x,y){
         this.name = name
         this.imagePath = imagePath
         this.found = false
@@ -33,11 +34,11 @@ class BonusItem extends Item {
 
 class RoomList {
     constructor (name) {
-        houseName = name;
-        houseRooms = [];
+        this.houseName = name;
+        this.houseRooms = [];
     }
-    createRoom(name){
-        const room = new Room(name, imagePath);
+    createRoom(name, imagePath){
+        const room = new Room(this.houseName,name, imagePath);
         this.houseRooms.push(room);
         return this.houseRooms;
     }
@@ -46,10 +47,10 @@ class RoomList {
 class ItemList {
     constructor (name) {
         this.roomName = name;
-        roomItems = [];
+        this.roomItems = [];
     }
     createItemList(name){
-        const room = new Item(name, imagePath, x,y);
+        const room = new Item(name,imagePath,x,y);
         this.roomItems.push(room);
         return this.roomItems;
     }
@@ -74,3 +75,9 @@ class Player {
         time5sec: 5,
         time10sec: 3,
         timeOver: 1  } 
+
+
+const house = new RoomList("louie");
+const louieRoom = house.createRoom("louieRoom","../img/room1/louieroom.svg");
+console.log(house);
+console.log(louieRoom);
