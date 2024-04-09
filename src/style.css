@@ -48,6 +48,10 @@ h2 {
     
 }
 
+#gameFiledIMG {
+    display: block;
+}
+
 .dynamicIMG{
     position: absolute;
     width: 820px;
