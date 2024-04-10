@@ -16,7 +16,7 @@ header {
     text-align: center;
 }
 
-h1, h2 {
+h1, h2, #timerDisplay {
     font-family: "Acme", sans-serif;
     font-weight: 400;
     font-style: normal;
@@ -27,7 +27,7 @@ h1 {
     font-size: 70px;
 }
 
-h2 {
+h2, #timerDisplay {
     font-size: 50px;
 }
 
@@ -36,16 +36,32 @@ h2 {
  width: 1300px;
  justify-content: space-between;
  background-color: white;
+ height: 570px;
 }
 
 .gameField {
     margin-left: 50px;
     width: 750px;
-    height: 570px;
-    /* height: 800px; when add score and word change size*/ 
     display: flex;
-    align-items: top;
+    /* align-items: top; */
     
+    background-color: rgb(185, 207, 248);
+}
+
+.finditem{
+    background-color: white;
+    color: rgb(32, 66, 234);
+    font-size: 35px;
+    font-family: "Acme", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    text-align: center;
+    width: 370px;
+    height: 80px;
+    padding-bottom: 50px;
+    margin: 30px;
+    align-self:flex-end;
+   
 }
 
 #gameFiledIMG {
@@ -55,7 +71,8 @@ h2 {
 .dynamicIMG{
     position: absolute;
     width: 820px;
-    height: 570px;
+    align-self: flex-start;
+    /* height: 570px; */
   
 }
 

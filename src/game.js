@@ -82,22 +82,21 @@ const houseLouie = house.createRoom("louieRoom","./img/room1/louieroom.svg");
 
 
 const itemsLouieRoom = new ItemList("LouieItems");
-itemsLouieRoom.createItemList("lamp","./img/room1/items/lamp.svg",411,-453)
-itemsLouieRoom.createItemList("box","./img/room1/items/box.svg",345,-625)
-itemsLouieRoom.createItemList("chair","./img/room1/items/chair.svg",172,-292)
-itemsLouieRoom.createItemList("frame","./img/room1/items/frame.svg",390,-530)
-itemsLouieRoom.createItemList("pencil","./img/room1/items/pencil.svg",122,-292)
+itemsLouieRoom.createItemList("lamp","./img/room1/items/lamp.svg",412,-455)
+itemsLouieRoom.createItemList("box","./img/room1/items/box.svg",350,-625)
+itemsLouieRoom.createItemList("chair","./img/room1/items/chair.svg",178,-294)
+itemsLouieRoom.createItemList("frame","./img/room1/items/frame.svg",410,-530)
+itemsLouieRoom.createItemList("pencil","./img/room1/items/pencil.svg",130,-292)
 itemsLouieRoom.createItemList("pillow","./img/room1/items/pillow.svg",-205,-349)
-itemsLouieRoom.createItemList("plant","./img/room1/items/plant.svg",-473,-370)
-itemsLouieRoom.createItemList("sofa","./img/room1/items/sofa.svg",-15,-285)
+itemsLouieRoom.createItemList("plant","./img/room1/items/plant.svg",-450,-372)
+itemsLouieRoom.createItemList("sofa","./img/room1/items/sofa.svg",10,-285)
 itemsLouieRoom.createItemList("nightstand","./img/room1/items/nightstand.svg",630,-442)
 itemsLouieRoom.createItemList("backpack","./img/room1/items/backpack.svg",412,-465)
-itemsLouieRoom.createItemList("scarf","./img/room1/items/scarf.svg",270,-485)
-itemsLouieRoom.createItemList("bedsidelamp","./img/room1/items//bedsidelamp.svg",445,-574)
-itemsLouieRoom.createItemList("book","./img/room1/items/book.svg",330,-574)
+itemsLouieRoom.createItemList("scarf","./img/room1/items/scarf.svg",280,-488)
+itemsLouieRoom.createItemList("bedsidelamp","./img/room1/items//bedsidelamp.svg",460,-574)
+itemsLouieRoom.createItemList("book","./img/room1/items/book.svg",345,-574)
 itemsLouieRoom.createItemList("umbrella","./img/room1/items/umbrella.svg",215,-424)
 const spider = new BonusItem ("spider","./img/room1/items/spider.svg",-80,-900)
-
 
 
 
@@ -107,6 +106,45 @@ houseLouie[0].room.push(itemsLouieRoom);
 console.log(houseLouie[0].imagePath);
 console.log(houseLouie[0].room);
 console.log(houseLouie[0].room[0].roomItems); // array of items
+
+//TIMER
+
+let totalTime = 300; // 5 minutes in seconds
+let intervalId = null;
+
+function startCountdown() {
+    intervalId = setInterval(() => {
+        totalTime--;
+        updateTimerDisplay();
+        
+        if (totalTime <= 0) {
+            clearInterval(intervalId);
+            console.log("Countdown finished!"); // Perform an action when the countdown ends
+        }
+    }, 1000); // Update every second
+}
+
+function updateTimerDisplay() {
+    let minutes = Math.floor(totalTime / 60);
+    let seconds = totalTime % 60;
+    
+    // Ensuring double digits for minutes and seconds
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+    
+    document.getElementById('timerDisplay').innerText = `Time Left: ${minutes}:${seconds}`;
+}
+
+
+
+// GAME
+
+function newWord (houseLouie, round, index) {
+ const itemsArray = houseLouie[round].room[round].roomItems;
+ const word = document.getElementById("wordItem");
+ word.firstChild.textContent = itemsArray[index].name
+}
+
 
 
 // 
@@ -140,7 +178,22 @@ playerField.addEventListener("click", function(event){
             gamePicture.appendChild(itemImg);
         }
 
+        document.getElementById("welcomePlayer").remove();
         document.getElementById("startGame").remove();
+        document.getElementById("maincontainer").style.height=750+'px';
+
+        const wordDiv = document.createElement('div');
+        wordDiv.setAttribute("id", "wordItem");
+        wordDiv.classList.add("finditem");
+        const wordText = document.createElement('p');
+        wordText.textContent = "get ready";
+        wordDiv.appendChild(wordText);
+        gameField.appendChild(wordDiv);
+        debugger;
+        document.getElementById("timerDisplay").style.visibility = "visible";
+        startCountdown();
+
+        newWord (houseLouie, round, 0);
     }
 }
 })
@@ -159,10 +212,9 @@ playerField.addEventListener("click", function(event){
         let inputName = document.createElement('input');
         inputName.setAttribute("type", "text");
         inputName.setAttribute("id", "name");
-        inputName.value = "Your Name";
+        inputName.placeholder="Your name"
 
         let subButton = document.createElement('button')
-        // subButton.setAttribute("type", "button");
         subButton.innerText = "Submit";
         subButton.setAttribute("id", "submit")
 
@@ -171,7 +223,6 @@ playerField.addEventListener("click", function(event){
         
         playerField.appendChild(divName);
 
-        // document.getElementById("soloGame").style.visibility = "hidden";
         document.getElementById("soloGame").remove();
     }
 }
@@ -187,6 +238,7 @@ playerField.addEventListener("click", function(event){
 
             let playerName = document.getElementById("name").value;
             let welcomeText = document.createElement('p')
+            welcomeText.setAttribute("id", "welcomePlayer")
             welcomeText.textContent = `Hi, ${playerName}! Let's fix this mess!`;
         
             let startButton = document.createElement('button');
@@ -206,4 +258,23 @@ playerField.addEventListener("click", function(event){
 }
 })
 
+let index=0;
+gameField.addEventListener("click", function(event){
+    event.preventDefault();
+    const clickElement = event.target; 
 
+    if (clickElement.nodeName = "IMG") {
+        debugger;
+        let wordFind = document.getElementById("wordItem");
+        // console.log(wordFind.firstChild.innerText);
+        // console.log(clickElement.id);
+        if (wordFind.firstChild.innerText === clickElement.id) {
+            window.alert("you found an item")
+            index++
+            newWord (houseLouie, round, index)
+            return index
+        }
+    }
+})
+
+console.log(index)
