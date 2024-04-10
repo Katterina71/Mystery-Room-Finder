@@ -182,14 +182,23 @@ playerField.addEventListener("click", function(event){
         document.getElementById("startGame").remove();
         document.getElementById("maincontainer").style.height=750+'px';
 
+        const introHeader = document.getElementById("intro").firstElementChild;
+        introHeader.textContent = "Round " +(round+1);
+      
+        // debugger;
+        const introText = document.getElementById("intro").lastElementChild;
+        console.log(introText);
+        introText.textContent = "Your quest? Find the lost items before the clock ticks down! But hurry, the attic gremlins love a slowpoke. Ready? Dive into the chaos, watch out for sneaky shadows, and let the attic's secrets reveal themselves. Go on, time's running out!"
+
+
         const wordDiv = document.createElement('div');
         wordDiv.setAttribute("id", "wordItem");
         wordDiv.classList.add("finditem");
+
         const wordText = document.createElement('p');
-        wordText.textContent = "get ready";
         wordDiv.appendChild(wordText);
         gameField.appendChild(wordDiv);
-        debugger;
+ 
         document.getElementById("timerDisplay").style.visibility = "visible";
         startCountdown();
 
@@ -269,7 +278,8 @@ gameField.addEventListener("click", function(event){
         // console.log(wordFind.firstChild.innerText);
         // console.log(clickElement.id);
         if (wordFind.firstChild.innerText === clickElement.id) {
-            window.alert("you found an item")
+            window.alert("you found an item");
+            // clickElement.remove();
             index++
             newWord (houseLouie, round, index)
             return index

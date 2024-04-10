@@ -29,6 +29,7 @@ h1 {
 
 h2, #timerDisplay {
     font-size: 50px;
+    margin: 0px;
 }
 
 .maincontainer {
@@ -58,7 +59,7 @@ h2, #timerDisplay {
     text-align: center;
     width: 370px;
     height: 80px;
-    padding-bottom: 50px;
+    padding-bottom: 30px;
     margin: 30px;
     align-self:flex-end;
    
