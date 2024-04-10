@@ -87,7 +87,7 @@ itemsLouieRoom.createItemList("box","./img/room1/items/box.svg",345,-625)
 itemsLouieRoom.createItemList("chair","./img/room1/items/chair.svg",172,-292)
 itemsLouieRoom.createItemList("frame","./img/room1/items/frame.svg",390,-530)
 itemsLouieRoom.createItemList("pencil","./img/room1/items/pencil.svg",122,-292)
-itemsLouieRoom.createItemList("pillow","./img/room1/items/pillow.svg",-215,-349)
+itemsLouieRoom.createItemList("pillow","./img/room1/items/pillow.svg",-205,-349)
 itemsLouieRoom.createItemList("plant","./img/room1/items/plant.svg",-473,-370)
 itemsLouieRoom.createItemList("sofa","./img/room1/items/sofa.svg",-15,-285)
 itemsLouieRoom.createItemList("nightstand","./img/room1/items/nightstand.svg",630,-442)
@@ -109,29 +109,29 @@ console.log(houseLouie[0].room);
 console.log(houseLouie[0].room[0].roomItems); // array of items
 
 
-
+// 
+let round = 0;  
 
 
 // main 
-const startGame = document.getElementById("playerField");
+const playerField = document.getElementById("playerField");
 const gameFiledIMG = document.getElementById("gameFiledIMG");
 const gamePicture = document.getElementById("dynamicIMG")
-console.log(gamePicture)
 
-let itemsArr =[];
 
-startGame.addEventListener("click", function(event){
+
+playerField.addEventListener("click", function(event){
     event.preventDefault();
     const clickElement = event.target; 
+
     if (clickElement.nodeName = "BUTTON") {
-        document.getElementById('gameFiledIMG').src = houseLouie[0].imagePath;
-        console.log(houseLouie[0].imagePath);
-        const itemsArr = houseLouie[0].room[0].roomItems;
+
+        if (clickElement.id === "startGame") {
+        document.getElementById('gameFiledIMG').src = houseLouie[round].imagePath;
+        const itemsArr = houseLouie[round].room[0].roomItems;
+
         for (let i in itemsArr) {
-            // debugger;
             let itemImg = document.createElement('img');
-            console.log(itemsArr[i].name);
-            console.log(itemsArr[i].imagePath);
             itemImg.setAttribute('id', itemsArr[i].name);
             itemImg.classList.add("overlay-image");
             itemImg.src = itemsArr[i].imagePath;
@@ -139,8 +139,71 @@ startGame.addEventListener("click", function(event){
             itemImg.style.top = itemsArr[i].topPX+'px';
             gamePicture.appendChild(itemImg);
         }
+
+        document.getElementById("startGame").remove();
     }
+}
 })
 
+playerField.addEventListener("click", function(event){
+    event.preventDefault();
+    const clickElement = event.target; 
+
+    if (clickElement.nodeName = "BUTTON") {
+
+        if (clickElement.id === "soloGame") {
+       
+        let divName = document.createElement("div");
+        divName.classList.add("addname")
+        
+        let inputName = document.createElement('input');
+        inputName.setAttribute("type", "text");
+        inputName.setAttribute("id", "name");
+        inputName.value = "Your Name";
+
+        let subButton = document.createElement('button')
+        // subButton.setAttribute("type", "button");
+        subButton.innerText = "Submit";
+        subButton.setAttribute("id", "submit")
+
+        divName.appendChild(inputName);
+        divName.appendChild(subButton);
+        
+        playerField.appendChild(divName);
+
+        // document.getElementById("soloGame").style.visibility = "hidden";
+        document.getElementById("soloGame").remove();
+    }
+}
+})
+
+playerField.addEventListener("click", function(event){
+    event.preventDefault();
+    const clickElement = event.target; 
+
+    if (clickElement.nodeName = "BUTTON") {
+      
+        if (clickElement.id === "submit") {
+
+            let playerName = document.getElementById("name").value;
+            let welcomeText = document.createElement('p')
+            welcomeText.textContent = `Hi, ${playerName}! Let's fix this mess!`;
+        
+            let startButton = document.createElement('button');
+            startButton.setAttribute("id", "startGame");
+            startButton.innerText = "Start Game";
+
+            playerField.appendChild(welcomeText);
+            playerField.appendChild(startButton);
+
+            const elements = Array.from(document.getElementsByClassName("addname"));
+            elements.forEach(function(element) {
+            element.remove();
+
+        });
+        clickElement.remove();
+    }
+}
+})
 
 
