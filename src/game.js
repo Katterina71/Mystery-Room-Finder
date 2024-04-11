@@ -349,28 +349,49 @@ gameField.addEventListener("click", function(event){
     const clickElement = event.target; 
 
     if (clickElement.nodeName = "IMG") {
-        debugger;
         let wordFind = document.getElementById("wordItem");
         if (wordFind.innerText === clickElement.id) {
             let check = checkFinishRound(player, houseLouie, round, index);
             if (check === false) {
+                debugger;
+                console.log(document.getElementsByClassName("overlay-image"))
+                const elements = Array.from(document.getElementsByClassName("overlay-image"));
+                elements.forEach(function(element) {
+                element.remove();});
+
                 document.getElementById('gameFiledIMG').src = "./img/winner.svg"
+
+                const winnerDiv = document.createElement('div');
+                winnerDiv.setAttribute('id','winner');
+                winnerDiv.classList.add("winnder")
+
+                const headerForFider = document.createElement('h2');
+                headerForFider.textContent = "You win!"
+                winnerDiv.appendChild(headerForFider);
+
+                const scrore = document.createElement('h3');
+                headerForFider.textContent = "Your score: " + player.finalScore()
+                winnerDiv.appendChild(headerForFider);  
+                
+                const items = document.createElement('p');
+                headerForFider.textContent = "You find: " + player.totalNumberOfItems
+                winnerDiv.appendChild(items);     
+                
+                const totalTime = document.createElement('p');
+                let time = getCurrentTimeLeft();
+                let timeLine = updateTimerDisplay(time);
+                headerForFider.textContent = "Your time: " + timeLine;
+                winnerDiv.appendChild(items);      
+
+                document.getElementById('dynamicIMG').appendChild(winnerDiv);
                 return index =0;
                 }
             else  {
                 index++;
-                debugger
                 newWord (houseLouie, round, index);
                 showPopup();
-                setTimeout(closePopup, 2500); 
+                setTimeout(closePopup, 1000); 
                 return index }
-            // let time = getCurrentTimeLeft();
-            // countedScore(player, houseLouie, round, index, time);
-            // index++;
-            // newWord (houseLouie, round, index);
-            // showPopup();
-            // setTimeout(closePopup, 2500);
-            // return index
         }
     }
 })
