@@ -225,7 +225,11 @@ function removeBlocks(){
 
 }
 
+// Interface 
+
 function timeIsOver () {
+
+    removeBlocks()
 
     document.getElementById('gameFiledIMG').src = "./img/lost.svg"
 
@@ -248,8 +252,22 @@ function timeIsOver () {
 
     player.totalScore = 0;
 
-    removeBlocks()
+   
+    restar();
+    newGame();
 }
+
+function restart(buttonName) { 
+
+let startButton = document.createElement('button');
+startButton.setAttribute("id", "startGame");
+startButton.innerText = buttonName;
+playerField.appendChild(startButton);
+
+return true;
+
+}
+
 
 
 //TIMER
@@ -437,7 +455,8 @@ gameField.addEventListener("click", function(event){
                 document.getElementById('dynamicIMG').appendChild(winnerDiv);
 
                 removeBlocks();
-
+                restart("Restart Game ");
+                restart("New Game");
                 return index =0;
                 }
             else  {
