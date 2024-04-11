@@ -16,11 +16,9 @@ class Item {
         this.leftPX = leftPX;
         this.topPX = topPX;
     }
-    soundOn(sound) {
-        return true;
-    }
-    animationOn(animation) {
-        return true;
+    itemfound() {
+        this.found = true;
+        return  this.found;
     }
 }
 
@@ -60,21 +58,53 @@ class Player {
     constructor (name) {
         this.name = name
         this.timeTofind = [] // Array of all check breakes
-        this.findItems = [] // The name of itemes - length how many items
-        this.score = 0
+        this.score = []
         this.timeToFinish = 0
         this.totalNumberOfItems = 0
         this.totalScore = 0
         this.bonusItem = []
     }
+    allfindItems() {
+       return this.totalNumberOfItems++;
+    }
+    timeWhenFindItem(time){
+      return this.timeTofind.push(time);
+    }
+    finishtime(time){
+        this.timeToFinish = time;
+        return this.timeToFinish;
+    }
+    countScore(scoreScheme){
+        let num = 0;
+        if (this.timeTofind.length === 1) { num = 300 - this.timeTofind.at(-1)}
+        else  {num = this.timeTofind.at(-1) - this.timeTofind.at(-2);}
+        console.log(this.timeTofind.at(-1));
+        console.log(this.timeTofind.at(-2));
+        if (num <= 2) {
+            this.score.push(scoreScheme[0]);
+        } else if (num > 2 && num <= 3) {
+            this.score.push(scoreScheme[1]);
+        } else if (num > 3 && num <= 5) {
+            this.score.push(scoreScheme[2]);
+        } else if (num > 5 && num <= 10) {
+            this.score.push(scoreScheme[3]);
+        } else {
+            this.score.push(scoreScheme[4]); 
+        }
+    }
+    finalScore(){
+        let num = this.score.reduce((arr, currentValue) => arr + currentValue);
+        return num;
+    }
+    finalTime(totalTime){
+        return time = totalTime - timeTofind.at[-1];
+    }
 }
 
- const scoreScheme = // Earning score depent on how fast player find an item.
- {      time1sec: 20,
-        time2sec: 10,
-        time5sec: 5,
-        time10sec: 3,
-        timeOver: 1  } 
+ const scoreScheme = [20,10,5,3,1] // Earning score depent on how fast player find an item.
+
+
+
 
 
 const house = new RoomList("louie");
@@ -122,6 +152,7 @@ function startCountdown() {
             console.log("Countdown finished!"); // Perform an action when the countdown ends
         }
     }, 1000); // Update every second
+    return totalTime;
 }
 
 function updateTimerDisplay() {
@@ -135,6 +166,9 @@ function updateTimerDisplay() {
     document.getElementById('timerDisplay').innerText = `Time Left: ${minutes}:${seconds}`;
 }
 
+function getCurrentTimeLeft() {
+    return totalTime;
+}
 
 
 // GAME
@@ -174,13 +208,9 @@ function generateRound (houseLouie, round){
     playerField.appendChild(timer);
     startCountdown();
 
-
-   
-
     newWord (houseLouie, round, 0);
     
 }
-
 
 function newWord (houseLouie, round, index) {
  const itemsArray = houseLouie[round].room[round].roomItems;
@@ -188,6 +218,30 @@ function newWord (houseLouie, round, index) {
  word.innerText = itemsArray[index].name
 
 }
+
+function countedScore(player, itemsArray, round, index, time) {
+    
+    itemsArray[index].itemfound(); 
+    player.allfindItems();
+    player.timeWhenFindItem(time);
+    player.countScore(scoreScheme); 
+    console.log(itemsArray);
+    console.log(player);
+}
+
+function checkFinishRound(player, houseLouie, round, index){
+   
+    let time = getCurrentTimeLeft();
+    const itemsArray = houseLouie[round].room[round].roomItems;
+    countedScore(player, itemsArray, round, index, time);
+    let result = itemsArray.filter((arr) => arr.found === false);
+    if (result.length !== 0) {
+    return check = true}
+    else {return check = false};
+}
+
+
+
 
 // Pop up
 function showPopup() {
@@ -201,6 +255,7 @@ function closePopup() {
 
 // 
 let round = 0;  
+let playerName ="";
 
 
 // main 
@@ -267,7 +322,7 @@ playerField.addEventListener("click", function(event){
             let welcomeText = document.createElement('p')
             welcomeText.setAttribute("id", "welcomePlayer")
             welcomeText.textContent = `Hi, ${playerName}! Let's fix this mess!`;
-        
+
             let startButton = document.createElement('button');
             startButton.setAttribute("id", "startGame");
             startButton.innerText = "Start Game";
@@ -278,14 +333,17 @@ playerField.addEventListener("click", function(event){
             const elements = Array.from(document.getElementsByClassName("addname"));
             elements.forEach(function(element) {
             element.remove();
-
-        });
+         });
         clickElement.remove();
+        return playerName;
     }
 }
 })
 
+let player = new Player(playerName);
+console.log(player);
 let index=0;
+
 gameField.addEventListener("click", function(event){
     event.preventDefault();
     const clickElement = event.target; 
@@ -294,11 +352,25 @@ gameField.addEventListener("click", function(event){
         debugger;
         let wordFind = document.getElementById("wordItem");
         if (wordFind.innerText === clickElement.id) {
-            index++;
-            newWord (houseLouie, round, index);
-            showPopup();
-            setTimeout(closePopup, 2500);
-            return index
+            let check = checkFinishRound(player, houseLouie, round, index);
+            if (check === false) {
+                document.getElementById('gameFiledIMG').src = "./img/winner.svg"
+                return index =0;
+                }
+            else  {
+                index++;
+                debugger
+                newWord (houseLouie, round, index);
+                showPopup();
+                setTimeout(closePopup, 2500); 
+                return index }
+            // let time = getCurrentTimeLeft();
+            // countedScore(player, houseLouie, round, index, time);
+            // index++;
+            // newWord (houseLouie, round, index);
+            // showPopup();
+            // setTimeout(closePopup, 2500);
+            // return index
         }
     }
 })
