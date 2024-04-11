@@ -164,3 +164,10 @@ input[type="text"] {
     background-image: url(/img/popup.jpg);
 }
 
+
+.winer {
+    position: absolute;
+    z-index: 1;
+    top:125px;
+    left:300px;
+}

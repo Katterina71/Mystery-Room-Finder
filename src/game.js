@@ -78,8 +78,6 @@ class Player {
         let num = 0;
         if (this.timeTofind.length === 1) { num = 300 - this.timeTofind.at(-1)}
         else  {num = this.timeTofind.at(-1) - this.timeTofind.at(-2);}
-        console.log(this.timeTofind.at(-1));
-        console.log(this.timeTofind.at(-2));
         if (num <= 2) {
             this.score.push(scoreScheme[0]);
         } else if (num > 2 && num <= 3) {
@@ -133,9 +131,7 @@ const spider = new BonusItem ("spider","./img/room1/items/spider.svg",-80,-900)
 
 
 houseLouie[0].room.push(itemsLouieRoom);
-console.log(houseLouie[0].imagePath);
-console.log(houseLouie[0].room);
-console.log(houseLouie[0].room[0].roomItems); // array of items
+
 
 //TIMER
 
@@ -149,7 +145,6 @@ function startCountdown() {
         
         if (totalTime <= 0) {
             clearInterval(intervalId);
-            console.log("Countdown finished!"); // Perform an action when the countdown ends
         }
     }, 1000); // Update every second
     return totalTime;
@@ -225,8 +220,6 @@ function countedScore(player, itemsArray, round, index, time) {
     player.allfindItems();
     player.timeWhenFindItem(time);
     player.countScore(scoreScheme); 
-    console.log(itemsArray);
-    console.log(player);
 }
 
 function checkFinishRound(player, houseLouie, round, index){
@@ -341,7 +334,6 @@ playerField.addEventListener("click", function(event){
 })
 
 let player = new Player(playerName);
-console.log(player);
 let index=0;
 
 gameField.addEventListener("click", function(event){
@@ -353,37 +345,51 @@ gameField.addEventListener("click", function(event){
         if (wordFind.innerText === clickElement.id) {
             let check = checkFinishRound(player, houseLouie, round, index);
             if (check === false) {
-                debugger;
-                console.log(document.getElementsByClassName("overlay-image"))
+               
                 const elements = Array.from(document.getElementsByClassName("overlay-image"));
                 elements.forEach(function(element) {
                 element.remove();});
 
                 document.getElementById('gameFiledIMG').src = "./img/winner.svg"
-
+    
                 const winnerDiv = document.createElement('div');
                 winnerDiv.setAttribute('id','winner');
-                winnerDiv.classList.add("winnder")
+                winnerDiv.classList.add("winer");
+                document.getElementById('gameFiledIMG').style.position = "relative";
+                // winnerDiv.style.overflow("auto");
 
+   
                 const headerForFider = document.createElement('h2');
                 headerForFider.textContent = "You win!"
                 winnerDiv.appendChild(headerForFider);
 
                 const scrore = document.createElement('h3');
-                headerForFider.textContent = "Your score: " + player.finalScore()
-                winnerDiv.appendChild(headerForFider);  
+                console.log(player.finalScore());
+                scrore.textContent = "Your score: " + player.finalScore()
+                winnerDiv.appendChild(scrore);  
                 
-                const items = document.createElement('p');
-                headerForFider.textContent = "You find: " + player.totalNumberOfItems
-                winnerDiv.appendChild(items);     
+                const itemsP = document.createElement('p');
+                console.log(player.totalNumberOfItems);
+                itemsP.textContent = "You find: " + player.totalNumberOfItems
+                winnerDiv.appendChild(itemsP);     
                 
-                const totalTime = document.createElement('p');
-                let time = getCurrentTimeLeft();
-                let timeLine = updateTimerDisplay(time);
-                headerForFider.textContent = "Your time: " + timeLine;
-                winnerDiv.appendChild(items);      
+                const totalTimeP = document.createElement('p');
+                let finalTime = getCurrentTimeLeft();
+                let time = totalTime - finalTime;
+
+                let minutes = Math.floor(time / 60);
+                let seconds = time % 60;
+                
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+                seconds = seconds < 10 ? '0' + seconds : seconds;
+
+                totalTimeP.innerText = `Your time: ${minutes}:${seconds}`;
+                winnerDiv.appendChild(totalTimeP);      
 
                 document.getElementById('dynamicIMG').appendChild(winnerDiv);
+
+                document.getElementById("timerDisplay").remove();
+                document.getElementById("wordItem").remove();
                 return index =0;
                 }
             else  {
@@ -396,4 +402,3 @@ gameField.addEventListener("click", function(event){
     }
 })
 
-console.log(index)
