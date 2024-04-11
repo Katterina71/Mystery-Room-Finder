@@ -20,6 +20,9 @@ class Item {
         this.found = true;
         return  this.found;
     }
+    itemRestart(){
+        return  this.found=false;
+    }
 }
 
 class BonusItem extends Item {
@@ -96,6 +99,14 @@ class Player {
     }
     finalTime(totalTime){
         return time = totalTime - timeTofind.at[-1];
+    }
+    restart(){
+        this.timeTofind = [] // Array of all check breakes
+        this.score = []
+        this.timeToFinish = 0
+        this.totalNumberOfItems = 0
+        this.totalScore = 0
+        this.bonusItem = []
     }
 }
 
@@ -253,19 +264,33 @@ function timeIsOver () {
     player.totalScore = 0;
 
    
-    restar();
-    newGame();
+    const BtnDiv = document.createElement('div');
+    BtnDiv.setAttribute('id','btnDiv');
+  
+    restart("Restart Game",BtnDiv);
+    restart("New Game", BtnDiv);
+
+    playerField.appendChild(BtnDiv);
+
+    indexRestart(index);
+
+    return player.restart()
+
 }
 
-function restart(buttonName) { 
+function restart(buttonName, BtnDiv) { 
 
 let startButton = document.createElement('button');
 startButton.setAttribute("id", "startGame");
 startButton.innerText = buttonName;
-playerField.appendChild(startButton);
+BtnDiv.appendChild(startButton);
 
 return true;
 
+}
+
+function indexRestart(index){
+    return index=0;
 }
 
 
@@ -318,6 +343,7 @@ function closePopup() {
 // 
 let round = 0;  
 let playerName ="";
+let index=0;
 
 
 // main 
@@ -335,9 +361,15 @@ playerField.addEventListener("click", function(event){
 
         if (clickElement.id === "startGame") {
 
-        generateRound(houseLouie, round);
-        document.getElementById("welcomePlayer").remove();
-        document.getElementById("startGame").remove();
+            if (document.getElementById("btnDiv") !== null) {
+                document.getElementById("btnDiv").remove();
+                document.getElementById("winner").remove();
+            }
+            else{
+                document.getElementById("welcomePlayer").remove();
+                document.getElementById("startGame").remove();
+            }
+            generateRound(houseLouie, round);
     }
 }
 })
@@ -403,17 +435,15 @@ playerField.addEventListener("click", function(event){
 })
 
 let player = new Player(playerName);
-let index=0;
+
 
 gameField.addEventListener("click", function(event){
     event.preventDefault();
     const clickElement = event.target; 
-
     if (clickElement.nodeName = "IMG") {
         let wordFind = document.getElementById("wordItem");
         if (wordFind.innerText === clickElement.id) {
             let check = checkFinishRound(player, houseLouie, round, index);
-   
             let finalTime = getCurrentTimeLeft();
             console.log(finalTime)
              if (check === false) {
@@ -455,11 +485,21 @@ gameField.addEventListener("click", function(event){
                 document.getElementById('dynamicIMG').appendChild(winnerDiv);
 
                 removeBlocks();
-                restart("Restart Game");
-                restart("New Game");
-                return index =0;
+
+                const BtnDiv = document.createElement('div');
+                BtnDiv.setAttribute('id','btnDiv');
+              
+                restart("Restart Game",BtnDiv);
+                restart("New Game", BtnDiv);
+
+                playerField.appendChild(BtnDiv);
+                const itemsArray = houseLouie[round].room[round].roomItems;
+                itemsArray.forEach((element) => (element.itemRestart()))
+                index = 0;
+                return player.restart()
                 }
             else  {
+                debugger;
                 index++;
                 newWord (houseLouie, round, index);
                 showPopup();
