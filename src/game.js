@@ -455,7 +455,7 @@ gameField.addEventListener("click", function(event){
                 document.getElementById('dynamicIMG').appendChild(winnerDiv);
 
                 removeBlocks();
-                restart("Restart Game ");
+                restart("Restart Game");
                 restart("New Game");
                 return index =0;
                 }
