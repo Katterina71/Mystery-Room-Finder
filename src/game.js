@@ -138,14 +138,66 @@ function updateTimerDisplay() {
 
 
 // GAME
+function generateRound (houseLouie, round){
+
+    document.getElementById('gameFiledIMG').src = houseLouie[round].imagePath;
+    const itemsArr = houseLouie[round].room[0].roomItems;
+
+    for (let i in itemsArr) {
+        let itemImg = document.createElement('img');
+        itemImg.setAttribute('id', itemsArr[i].name);
+        itemImg.classList.add("overlay-image");
+        itemImg.src = itemsArr[i].imagePath;
+        itemImg.style.left = itemsArr[i].leftPX+'px';
+        itemImg.style.top = itemsArr[i].topPX+'px';
+        gamePicture.appendChild(itemImg);
+    }
+
+    const introHeader = document.getElementById("intro").firstElementChild;
+    introHeader.textContent = "Round " +(round+1);
+  
+    const introText = document.getElementById("intro").lastElementChild;
+    introText.textContent = "Your quest? Find the lost items before the clock ticks down! But hurry, the attic gremlins love a slowpoke."
+
+    const headerForFider = document.createElement('h3');
+    headerForFider.textContent = "Find an item:"
+    playerField.appendChild(headerForFider);
+ 
+    const wordDiv = document.createElement('div');
+    wordDiv.setAttribute("id", "wordItem");
+    wordDiv.classList.add("finditem");
+    playerField.appendChild(wordDiv);
+    
+    const timer = document.createElement('div')
+    timer.setAttribute('id', 'timerDisplay');
+    timer.innerText = "Time Left: 05:00";
+    playerField.appendChild(timer);
+    startCountdown();
+
+
+   
+
+    newWord (houseLouie, round, 0);
+    
+}
+
 
 function newWord (houseLouie, round, index) {
  const itemsArray = houseLouie[round].room[round].roomItems;
  const word = document.getElementById("wordItem");
- word.firstChild.textContent = itemsArray[index].name
+ word.innerText = itemsArray[index].name
+
 }
 
+// Pop up
+function showPopup() {
+    document.getElementById('customPopup').style.display = 'block';
+}
 
+// Function to close the pop-up
+function closePopup() {
+    document.getElementById('customPopup').style.display = 'none';
+}
 
 // 
 let round = 0;  
@@ -165,44 +217,10 @@ playerField.addEventListener("click", function(event){
     if (clickElement.nodeName = "BUTTON") {
 
         if (clickElement.id === "startGame") {
-        document.getElementById('gameFiledIMG').src = houseLouie[round].imagePath;
-        const itemsArr = houseLouie[round].room[0].roomItems;
 
-        for (let i in itemsArr) {
-            let itemImg = document.createElement('img');
-            itemImg.setAttribute('id', itemsArr[i].name);
-            itemImg.classList.add("overlay-image");
-            itemImg.src = itemsArr[i].imagePath;
-            itemImg.style.left = itemsArr[i].leftPX+'px';
-            itemImg.style.top = itemsArr[i].topPX+'px';
-            gamePicture.appendChild(itemImg);
-        }
-
+        generateRound(houseLouie, round);
         document.getElementById("welcomePlayer").remove();
         document.getElementById("startGame").remove();
-        document.getElementById("maincontainer").style.height=750+'px';
-
-        const introHeader = document.getElementById("intro").firstElementChild;
-        introHeader.textContent = "Round " +(round+1);
-      
-        // debugger;
-        const introText = document.getElementById("intro").lastElementChild;
-        console.log(introText);
-        introText.textContent = "Your quest? Find the lost items before the clock ticks down! But hurry, the attic gremlins love a slowpoke. Ready? Dive into the chaos, watch out for sneaky shadows, and let the attic's secrets reveal themselves. Go on, time's running out!"
-
-
-        const wordDiv = document.createElement('div');
-        wordDiv.setAttribute("id", "wordItem");
-        wordDiv.classList.add("finditem");
-
-        const wordText = document.createElement('p');
-        wordDiv.appendChild(wordText);
-        gameField.appendChild(wordDiv);
- 
-        document.getElementById("timerDisplay").style.visibility = "visible";
-        startCountdown();
-
-        newWord (houseLouie, round, 0);
     }
 }
 })
@@ -275,13 +293,11 @@ gameField.addEventListener("click", function(event){
     if (clickElement.nodeName = "IMG") {
         debugger;
         let wordFind = document.getElementById("wordItem");
-        // console.log(wordFind.firstChild.innerText);
-        // console.log(clickElement.id);
-        if (wordFind.firstChild.innerText === clickElement.id) {
-            window.alert("you found an item");
-            // clickElement.remove();
-            index++
-            newWord (houseLouie, round, index)
+        if (wordFind.innerText === clickElement.id) {
+            index++;
+            newWord (houseLouie, round, index);
+            showPopup();
+            setTimeout(closePopup, 2500);
             return index
         }
     }
