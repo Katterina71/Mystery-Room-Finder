@@ -133,37 +133,8 @@ const spider = new BonusItem ("spider","./img/room1/items/spider.svg",-80,-900)
 houseLouie[0].room.push(itemsLouieRoom);
 
 
-//TIMER
 
-let totalTime = 300; // 5 minutes in seconds
-let intervalId = null;
 
-function startCountdown() {
-    intervalId = setInterval(() => {
-        totalTime--;
-        updateTimerDisplay();
-        
-        if (totalTime <= 0) {
-            clearInterval(intervalId);
-        }
-    }, 1000); // Update every second
-    return totalTime;
-}
-
-function updateTimerDisplay() {
-    let minutes = Math.floor(totalTime / 60);
-    let seconds = totalTime % 60;
-    
-    // Ensuring double digits for minutes and seconds
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-    seconds = seconds < 10 ? '0' + seconds : seconds;
-    
-    document.getElementById('timerDisplay').innerText = `Time Left: ${minutes}:${seconds}`;
-}
-
-function getCurrentTimeLeft() {
-    return totalTime;
-}
 
 
 // GAME
@@ -190,6 +161,7 @@ function generateRound (houseLouie, round){
 
     const headerForFider = document.createElement('h3');
     headerForFider.textContent = "Find an item:"
+    headerForFider.setAttribute('id','FindAnItem')
     playerField.appendChild(headerForFider);
  
     const wordDiv = document.createElement('div');
@@ -234,6 +206,85 @@ function checkFinishRound(player, houseLouie, round, index){
 }
 
 
+
+function removeBlocks(){
+    document.getElementById("timerDisplay").remove();
+    document.getElementById("wordItem").remove();
+
+    const introHeader = document.getElementById("intro").firstElementChild;
+    introHeader.textContent = "Game over";
+  
+    const introText = document.getElementById("intro").lastElementChild;
+    introText.style.visibility = "hidden";
+
+    document.getElementById('FindAnItem').remove();
+
+    const elements = Array.from(document.getElementsByClassName("overlay-image"));
+    elements.forEach(function(element) {
+    element.remove();});
+
+}
+
+function timeIsOver () {
+
+    document.getElementById('gameFiledIMG').src = "./img/lost.svg"
+
+    const winnerDiv = document.createElement('div');
+    winnerDiv.setAttribute('id','winner');
+    winnerDiv.classList.add("winer");
+    document.getElementById('gameFiledIMG').style.position = "relative";
+
+    const headerForFider = document.createElement('h2');
+    headerForFider.textContent = "You've lost. Time is over!"
+    winnerDiv.appendChild(headerForFider);
+
+    const lostHeader = document.createElement('h2');
+    lostHeader.textContent = "Time is over!"
+    winnerDiv.appendChild(lostHeader);
+
+    const itemsP = document.createElement('p');
+    itemsP.textContent = "You find: " + player.totalNumberOfItems
+    winnerDiv.appendChild(itemsP);     
+
+    player.totalScore = 0;
+
+    removeBlocks()
+}
+
+
+//TIMER
+
+let totalTime = 300; // 5 minutes in seconds
+const allTime = totalTime;
+let intervalId = null;
+
+function startCountdown() {
+    intervalId = setInterval(() => {
+        totalTime--;
+        updateTimerDisplay();
+        
+        if (totalTime <= 0) {
+            clearInterval(intervalId);
+            timeIsOver();
+        }
+    }, 1000); // Update every second
+    return totalTime;
+}
+
+function updateTimerDisplay() {
+    let minutes = Math.floor(totalTime / 60);
+    let seconds = totalTime % 60;
+    
+    // Ensuring double digits for minutes and seconds
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+    
+    document.getElementById('timerDisplay').innerText = `Time Left: ${minutes}:${seconds}`;
+}
+
+function getCurrentTimeLeft() {
+    return totalTime;
+}
 
 
 // Pop up
@@ -344,11 +395,10 @@ gameField.addEventListener("click", function(event){
         let wordFind = document.getElementById("wordItem");
         if (wordFind.innerText === clickElement.id) {
             let check = checkFinishRound(player, houseLouie, round, index);
-            if (check === false) {
-               
-                const elements = Array.from(document.getElementsByClassName("overlay-image"));
-                elements.forEach(function(element) {
-                element.remove();});
+   
+            let finalTime = getCurrentTimeLeft();
+            console.log(finalTime)
+             if (check === false) {
 
                 document.getElementById('gameFiledIMG').src = "./img/winner.svg"
     
@@ -356,26 +406,24 @@ gameField.addEventListener("click", function(event){
                 winnerDiv.setAttribute('id','winner');
                 winnerDiv.classList.add("winer");
                 document.getElementById('gameFiledIMG').style.position = "relative";
-                // winnerDiv.style.overflow("auto");
+        
 
-   
                 const headerForFider = document.createElement('h2');
                 headerForFider.textContent = "You win!"
                 winnerDiv.appendChild(headerForFider);
 
                 const scrore = document.createElement('h3');
-                console.log(player.finalScore());
                 scrore.textContent = "Your score: " + player.finalScore()
                 winnerDiv.appendChild(scrore);  
                 
                 const itemsP = document.createElement('p');
-                console.log(player.totalNumberOfItems);
                 itemsP.textContent = "You find: " + player.totalNumberOfItems
                 winnerDiv.appendChild(itemsP);     
                 
                 const totalTimeP = document.createElement('p');
-                let finalTime = getCurrentTimeLeft();
-                let time = totalTime - finalTime;
+                let time = allTime - finalTime;
+                console.log(time)
+                console.log(allTime)
 
                 let minutes = Math.floor(time / 60);
                 let seconds = time % 60;
@@ -388,8 +436,8 @@ gameField.addEventListener("click", function(event){
 
                 document.getElementById('dynamicIMG').appendChild(winnerDiv);
 
-                document.getElementById("timerDisplay").remove();
-                document.getElementById("wordItem").remove();
+                removeBlocks();
+
                 return index =0;
                 }
             else  {
