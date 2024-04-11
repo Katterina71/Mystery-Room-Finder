@@ -1,6 +1,6 @@
 body{
     /* background-color: rgb(220, 235, 255); */
-    background-image: url(../img/bg.jpg);
+    background-image: url(./img/bg.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     display: flex;
@@ -161,7 +161,7 @@ input[type="text"] {
     padding: 20px;
     text-align: center;
     width: 50%; 
-    background-image: url(/img/popup.jpg);
+    background-image: url(./img/popup.jpg);
 }
 
 
