@@ -163,7 +163,7 @@ function generateRound (houseLouie, round){
         itemImg.style.top = itemsArr[i].topPX+'px';
         gamePicture.appendChild(itemImg);
     }
-
+    debugger;
     const introHeader = document.getElementById("intro").firstElementChild;
     introHeader.textContent = "Round " +(round+1);
   
@@ -219,7 +219,8 @@ function checkFinishRound(player, houseLouie, round, index){
 
 
 function removeBlocks(){
-    document.getElementById("timerDisplay").remove();
+   
+    
     document.getElementById("wordItem").remove();
 
     const introHeader = document.getElementById("intro").firstElementChild;
@@ -233,15 +234,13 @@ function removeBlocks(){
     const elements = Array.from(document.getElementsByClassName("overlay-image"));
     elements.forEach(function(element) {
     element.remove();});
-
+    document.getElementById("timerDisplay").remove();
+    return;
 }
 
 // Interface 
 
 function timeIsOver () {
-
-    removeBlocks()
-
     document.getElementById('gameFiledIMG').src = "./img/lost.svg"
 
     const winnerDiv = document.createElement('div');
@@ -250,10 +249,10 @@ function timeIsOver () {
     document.getElementById('gameFiledIMG').style.position = "relative";
 
     const headerForFider = document.createElement('h2');
-    headerForFider.textContent = "You've lost. Time is over!"
+    headerForFider.textContent = "You've lost!"
     winnerDiv.appendChild(headerForFider);
 
-    const lostHeader = document.createElement('h2');
+    const lostHeader = document.createElement('h3');
     lostHeader.textContent = "Time is over!"
     winnerDiv.appendChild(lostHeader);
 
@@ -261,6 +260,7 @@ function timeIsOver () {
     itemsP.textContent = "You find: " + player.totalNumberOfItems
     winnerDiv.appendChild(itemsP);     
 
+    document.getElementById('dynamicIMG').appendChild(winnerDiv);
     player.totalScore = 0;
 
    
@@ -273,9 +273,10 @@ function timeIsOver () {
     playerField.appendChild(BtnDiv);
 
     indexRestart(index);
-
+    removeBlocks();
+    totalTime = 300;
+    index=0;
     return player.restart()
-
 }
 
 function restart(buttonName, BtnDiv) { 
@@ -297,7 +298,7 @@ function indexRestart(index){
 
 //TIMER
 
-let totalTime = 300; // 5 minutes in seconds
+let totalTime = 10; // 5 minutes in seconds
 const allTime = totalTime;
 let intervalId = null;
 
@@ -358,7 +359,7 @@ playerField.addEventListener("click", function(event){
     const clickElement = event.target; 
 
     if (clickElement.nodeName = "BUTTON") {
-
+   
         if (clickElement.id === "startGame") {
 
             if (document.getElementById("btnDiv") !== null) {
@@ -369,6 +370,7 @@ playerField.addEventListener("click", function(event){
                 document.getElementById("welcomePlayer").remove();
                 document.getElementById("startGame").remove();
             }
+            debugger;
             generateRound(houseLouie, round);
     }
 }
@@ -495,11 +497,12 @@ gameField.addEventListener("click", function(event){
                 playerField.appendChild(BtnDiv);
                 const itemsArray = houseLouie[round].room[round].roomItems;
                 itemsArray.forEach((element) => (element.itemRestart()))
+                
                 index = 0;
+                totalTime = 300;
                 return player.restart()
                 }
             else  {
-                debugger;
                 index++;
                 newWord (houseLouie, round, index);
                 showPopup();
