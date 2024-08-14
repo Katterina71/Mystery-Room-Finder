@@ -1,6 +1,4 @@
-import {itemList} from './modules/func.js'
-
-
+import {itemList} from './modules/items.js'
 
 class Room {
     constructor (house,name,imagePath){
@@ -27,27 +25,27 @@ class RoomList {
 class Player {
     constructor (name) {
         this.name = name
-        this.timeTofind = [] // Array of all check breakes
+        this.timeToFind = [] // Array of all check breaks
         this.score = []
         this.timeToFinish = 0
         this.totalNumberOfItems = 0
         this.totalScore = 0
         this.bonusItem = []
     }
-    allfindItems() {
+    allFindItems() {
        return this.totalNumberOfItems++;
     }
     timeWhenFindItem(time){
-      return this.timeTofind.push(time);
+      return this.timeToFind.push(time);
     }
-    finishtime(time){
+    finishTime(time){
         this.timeToFinish = time;
         return this.timeToFinish;
     }
     countScore(scoreScheme){
         let num = 0;
-        if (this.timeTofind.length === 1) { num = 300 - this.timeTofind.at(-1)}
-        else  {num = this.timeTofind.at(-1) - this.timeTofind.at(-2);}
+        if (this.timeToFind.length === 1) { num = 300 - this.timeToFind.at(-1)}
+        else  {num = this.timeToFind.at(-1) - this.timeToFind.at(-2);}
         if (num <= 2) {
             this.score.push(scoreScheme[0]);
         } else if (num > 2 && num <= 3) {
@@ -65,10 +63,10 @@ class Player {
         return num;
     }
     finalTime(totalTime){
-        return time = totalTime - timeTofind.at[-1];
+        return time = totalTime - timeToFind.at[-1];
     }
     restart(){
-        this.timeTofind = [] // Array of all check breakes
+        this.timeToFind = [] // Array of all check 
         this.score = []
         this.timeToFinish = 0
         this.totalNumberOfItems = 0
@@ -77,22 +75,13 @@ class Player {
     }
 }
 
- const scoreScheme = [20,10,5,3,1] // Earning score depent on how fast player find an item.
-
-
-
-
-
+const scoreScheme = [20,10,5,3,1] // Earning score depend on how fast player find an item.
 const house = new RoomList("louie");
-const houseLouie = house.createRoom("louieRoom","./img/room1/louieroom.svg");
-
-
+const houseLouie = house.createRoom("louieRoom","./img/room1/louieroom.svg"); // change room img
+let check = true;
 
 houseLouie[0].room.push(itemList);
 console.log(houseLouie[0])
-
-
-
 
 
 // GAME
@@ -117,14 +106,14 @@ function generateRound (houseLouie, round){
     const introText = document.getElementById("intro").lastElementChild;
     introText.textContent = "Your quest? Find the lost items before the clock ticks down! But hurry, the attic gremlins love a slowpoke."
 
-    const headerForFider = document.createElement('h3');
-    headerForFider.textContent = "Find an item:"
-    headerForFider.setAttribute('id','FindAnItem')
-    playerField.appendChild(headerForFider);
+    const headerForFinder = document.createElement('h3');
+    headerForFinder.textContent = "Find an item:"
+    headerForFinder.setAttribute('id','FindAnItem')
+    playerField.appendChild(headerForFinder);
  
     const wordDiv = document.createElement('div');
     wordDiv.setAttribute("id", "wordItem");
-    wordDiv.classList.add("finditem");
+    wordDiv.classList.add("findItem");
     playerField.appendChild(wordDiv);
     
     const timer = document.createElement('div')
@@ -146,13 +135,13 @@ function newWord (houseLouie, round, index) {
 
 function countedScore(player, itemsArray, round, index, time) {
     
-    itemsArray[index].itemfound(); 
-    player.allfindItems();
+    itemsArray[index].itemFound(); 
+    player.allFindItems();
     player.timeWhenFindItem(time);
     player.countScore(scoreScheme); 
 }
 
-let check = true;
+
 function checkFinishRound(player, houseLouie, round, index){
  
     let time = getCurrentTimeLeft();
@@ -194,12 +183,12 @@ function timeIsOver () {
 
     const winnerDiv = document.createElement('div');
     winnerDiv.setAttribute('id','winner');
-    winnerDiv.classList.add("winer");
+    winnerDiv.classList.add("winner");
     document.getElementById('gameFiledIMG').style.position = "relative";
 
-    const headerForFider = document.createElement('h2');
-    headerForFider.textContent = "You've lost!"
-    winnerDiv.appendChild(headerForFider);
+    const headerForFinder = document.createElement('h2');
+    headerForFinder.textContent = "You've lost!"
+    winnerDiv.appendChild(headerForFinder);
 
     const lostHeader = document.createElement('h3');
     lostHeader.textContent = "Time is over!"
@@ -303,7 +292,6 @@ const gameFiledIMG = document.getElementById("gameFiledIMG");
 const gamePicture = document.getElementById("dynamicIMG")
 
 
-
 playerField.addEventListener("click", function(event){
     event.preventDefault();
     const clickElement = event.target; 
@@ -333,7 +321,7 @@ playerField.addEventListener("click", function(event){
     if (clickElement.nodeName === "BUTTON") {
         if (clickElement.id === "soloGame") {
         let divName = document.createElement("div");
-        divName.classList.add("addname")
+        divName.classList.add("addName")
         
         let inputName = document.createElement('input');
         inputName.setAttribute("type", "text");
@@ -375,7 +363,7 @@ playerField.addEventListener("click", function(event){
             playerField.appendChild(welcomeText);
             playerField.appendChild(startButton);
 
-            const elements = Array.from(document.getElementsByClassName("addname"));
+            const elements = Array.from(document.getElementsByClassName("addName"));
             elements.forEach(function(element) {
             element.remove();
          });
@@ -403,17 +391,17 @@ gameField.addEventListener("click", function(event){
     
                 const winnerDiv = document.createElement('div');
                 winnerDiv.setAttribute('id','winner');
-                winnerDiv.classList.add("winer");
+                winnerDiv.classList.add("winner");
                 document.getElementById('gameFiledIMG').style.position = "relative";
         
 
-                const headerForFider = document.createElement('h2');
-                headerForFider.textContent = "You win!"
-                winnerDiv.appendChild(headerForFider);
+                const headerForFinder = document.createElement('h2');
+                headerForFinder.textContent = "You win!"
+                winnerDiv.appendChild(headerForFinder);
 
-                const scrore = document.createElement('h3');
-                scrore.textContent = "Your score: " + player.finalScore()
-                winnerDiv.appendChild(scrore);  
+                const score = document.createElement('h3');
+                score.textContent = "Your score: " + player.finalScore()
+                winnerDiv.appendChild(score);  
                 
                 const itemsP = document.createElement('p');
                 itemsP.textContent = "You find: " + player.totalNumberOfItems

@@ -7,7 +7,7 @@ class Item {
         this.leftPX = leftPX;
         this.topPX = topPX;
     }
-    itemfound() {
+    itemFound() {
         this.found = true;
         return  this.found;
     }
